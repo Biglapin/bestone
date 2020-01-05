@@ -34,12 +34,12 @@ window.onload = function()
      var x = position[0] * blockSize;
      var y = position[1] * blockSize;
      ctx.fillRect(x, y, blockSize, blockSize);      
-    console.log(position[0]+" "+position[1]);
     }
     
    function Snake(body, direction)
     {        
         this.body = body;
+        this.direction = direction;
         this.draw = function()
         {
           ctx.save();
@@ -54,23 +54,21 @@ window.onload = function()
         {
             var nextPosition = this.body[0].slice();
             switch(this.direction)
-                {
-                    case 'left':
-                    case "rigt":
-                        allowedDirections = ["up", "down"];
-                        break;
-                    case "down":
-                    case "up":
-                        allowedDirections = ["left", "right"];
-                        break;
-                    default:
-                        throw("Invalide Direction");
-                }
-                if(allowedDirections.indexOf(newDirection) > -1)
-                    {
-                        this.direction = newDirection;
-                        
-                    }
+        {
+            case "left":
+                nextPosition[0] -= 1;
+                break;
+            case "right":
+                nextPosition[0] += 1;
+                break;
+            case "down":
+                nextPosition[1] += 1;
+                break;
+            case "up":
+                nextPosition[1] -= 1;
+            default:
+                throw("Invalid Direction");
+         }
             this.body.unshift(nextPosition);
             this.body.pop();
         };
@@ -78,10 +76,23 @@ window.onload = function()
         {
             var allowedDirections;
             switch(this.direction)
-                {
-                        
-                }
-        }
+        {
+                case 'left':
+                case "rigt":
+                    allowedDirections = ["up", "down"];
+                    break;
+                case "down":
+                case "up":
+                    allowedDirections = ["left", "right"];
+                    break;
+                default:
+                    throw("Invalide Direction");
+         }
+        if(allowedDirections.indexOf(newDirection) > -1)
+            {
+            this.direction = newDirection;                       
+            }       
+        };
     }
     document.onkeydown = function handleKeyDown(e)
     {
